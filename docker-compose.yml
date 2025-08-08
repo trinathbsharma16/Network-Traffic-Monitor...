@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  sniffer:
+    build:
+      context: ./backend-cpp-sniffer
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+
+  server:
+    build:
+      context: ./backend-node-server
+    ports:
+      - "8080:8080"
+    network_mode: host
+
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - ./frontend-dashboard:/usr/share/nginx/html
+    ports:
+      - "80:80"
